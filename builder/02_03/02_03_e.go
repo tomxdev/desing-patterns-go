@@ -9,41 +9,41 @@ type Burger struct {
 	toppings  string
 }
 
-// BurguerBuilder Builder Interface
-type BurguerBuilder interface {
+// BurgerBuilder Builder Interface
+type BurgerBuilder interface {
 	setBreadType()
 	setMeatType()
 	setToppings()
 	getBurger() Burger
 }
 
-// RegularBurguerBuilder Concrete Builder 1
-type RegularBurguerBuilder struct {
+// RegularBurgerBuilder Concrete Builder 1
+type RegularBurgerBuilder struct {
 	breadType string
 	meatType  string
 	toppings  string
 }
 
-func newRegularBurguerBuilder() *RegularBurguerBuilder {
-	return &RegularBurguerBuilder{}
+func newRegularBurgerBuilder() *RegularBurgerBuilder {
+	return &RegularBurgerBuilder{}
 }
 
 // Set the Bread Type
-func (b *RegularBurguerBuilder) setBreadType() {
+func (b *RegularBurgerBuilder) setBreadType() {
 	b.breadType = "Sesame"
 }
 
 // Set the Meat Type
-func (b *RegularBurguerBuilder) setMeatType() {
+func (b *RegularBurgerBuilder) setMeatType() {
 	b.meatType = "beef"
 }
 
 // Set the Toppings
-func (b *RegularBurguerBuilder) setToppings() {
+func (b *RegularBurgerBuilder) setToppings() {
 	b.toppings = "Lettuce, Tomato, Bacon and Cheese."
 }
 
-func (b *RegularBurguerBuilder) getBurger() Burger {
+func (b *RegularBurgerBuilder) getBurger() Burger {
 	return Burger{
 		breadType: b.breadType,
 		meatType:  b.meatType,
@@ -51,33 +51,33 @@ func (b *RegularBurguerBuilder) getBurger() Burger {
 	}
 }
 
-// VeganBurguerBuilder Concrete Builder 2
-type VeganBurguerBuilder struct {
+// VeganBurgerBuilder Concrete Builder 2
+type VeganBurgerBuilder struct {
 	breadType string
 	meatType  string
 	toppings  string
 }
 
-func newVeganBurguerBuilder() *VeganBurguerBuilder {
-	return &VeganBurguerBuilder{}
+func newVeganBurgerBuilder() *VeganBurgerBuilder {
+	return &VeganBurgerBuilder{}
 }
 
 // Set the Bread Type
-func (b *VeganBurguerBuilder) setBreadType() {
+func (b *VeganBurgerBuilder) setBreadType() {
 	b.breadType = "Gluten Free"
 }
 
 // Set the Meat Type
-func (b *VeganBurguerBuilder) setMeatType() {
+func (b *VeganBurgerBuilder) setMeatType() {
 	b.meatType = "Black Bean"
 }
 
 // Set the Toppings
-func (b *VeganBurguerBuilder) setToppings() {
+func (b *VeganBurgerBuilder) setToppings() {
 	b.toppings = "Lettuce and Tomato"
 }
 
-func (b *VeganBurguerBuilder) getBurger() Burger {
+func (b *VeganBurgerBuilder) getBurger() Burger {
 	return Burger{
 		breadType: b.breadType,
 		meatType:  b.meatType,
@@ -87,32 +87,32 @@ func (b *VeganBurguerBuilder) getBurger() Burger {
 
 // Director struct
 type Director struct {
-	builder BurguerBuilder
+	builder BurgerBuilder
 }
 
-func newDirector(b BurguerBuilder) *Director {
+func newDirector(b BurgerBuilder) *Director {
 	return &Director{
 		builder: b,
 	}
 }
 
-func (d *Director) setBuilder(b BurguerBuilder) {
+func (d *Director) setBuilder(b BurgerBuilder) {
 	d.builder = b
 }
 
-func getBuilder(builderType string) BurguerBuilder {
+func getBuilder(builderType string) BurgerBuilder {
 	if builderType == "regular" {
-		return newRegularBurguerBuilder()
+		return newRegularBurgerBuilder()
 	}
 
 	if builderType == "vegan" {
-		return newVeganBurguerBuilder()
+		return newVeganBurgerBuilder()
 	}
 
 	return nil
 }
 
-func (d *Director) buildBurguer() Burger {
+func (d *Director) buildBurger() Burger {
 	d.builder.setBreadType()
 	d.builder.setMeatType()
 	d.builder.setToppings()
@@ -120,25 +120,25 @@ func (d *Director) buildBurguer() Burger {
 }
 
 func main() {
-	regularBurguerBuilder := getBuilder("regular")
-	veganBurguerBuilder := getBuilder("vegan")
+	regularBurgerBuilder := getBuilder("regular")
+	veganBurgerBuilder := getBuilder("vegan")
 
 	// Initialize the director
-	director := newDirector(regularBurguerBuilder)
+	director := newDirector(regularBurgerBuilder)
 
 	// Create the regular burger
-	regularBurguer := director.buildBurguer()
+	regularBurger := director.buildBurger()
 
-	printBurguerInfo(regularBurguer, "Regular")
+	printBurgerInfo(regularBurger, "Regular")
 
 	// Build the vegan burger
-	director.setBuilder(veganBurguerBuilder)
-	veganBurguer := director.buildBurguer()
+	director.setBuilder(veganBurgerBuilder)
+	veganBurger := director.buildBurger()
 
-	printBurguerInfo(veganBurguer, "Vegan")
+	printBurgerInfo(veganBurger, "Vegan")
 }
 
-func printBurguerInfo(burger Burger, burgerType string) {
+func printBurgerInfo(burger Burger, burgerType string) {
 	fmt.Printf("%s Burger Bread Type: %s\n", burgerType, burger.breadType)
 	fmt.Printf("%s Burger Meat Type: %s\n", burgerType, burger.meatType)
 	fmt.Printf("%s Burger Toppings: %s\n", burgerType, burger.toppings)
